@@ -118,7 +118,7 @@ static NSString* kRightUndraggableUnrearrangeableValue = @"Right - Undraggable &
 }
 
 -(void) droppedOnSrcAtIndexPath:(NSIndexPath*) to fromSrcIndexPath:(NSIndexPath*) from{
-        
+    
     NSInteger fromRow = [from row];
     NSInteger toRow = [to row];
     
@@ -131,7 +131,11 @@ static NSString* kRightUndraggableUnrearrangeableValue = @"Right - Undraggable &
 #pragma mark - Drag n drop exchange delegate methods
 
 -(void) droppedOnDstAtIndexPath:(NSIndexPath*) to fromSrcIndexPath:(NSIndexPath*)from{
-    
+
+    // cvc: handle to=nil; this means drop on empty part of table at the bottom so
+    //      create indexPath with row = length of dataSource of target (dropped on) table
+    if (to == nil)
+        to = [NSIndexPath indexPathForRow:(self.rightData.count) inSection:0];
     
     NSInteger fromRow = [from row];
     NSInteger toRow = [to row];
@@ -164,6 +168,10 @@ static NSString* kRightUndraggableUnrearrangeableValue = @"Right - Undraggable &
 
 -(void) droppedOnSrcAtIndexPath:(NSIndexPath*) to fromDstIndexPath:(NSIndexPath*) from{
     
+    // cvc: handle to=nil; this means drop on empty part of table at the bottom so
+    //      create indexPath with row = length of dataSource of target (dropped on) table
+    if (to == nil)
+        to = [NSIndexPath indexPathForRow:(self.leftData.count) inSection:0];
     
     NSInteger fromRow = [from row];
     NSInteger toRow = [to row];

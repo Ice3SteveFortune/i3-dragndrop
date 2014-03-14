@@ -166,6 +166,10 @@ static NSString* kCellMetaKeyText = @"kCellMetaKeyText";
 
 -(void) droppedOnDstAtIndexPath:(NSIndexPath*) to fromSrcIndexPath:(NSIndexPath*)from{
     
+    // cvc: handle to=nil; this means drop on empty part of table at the bottom so
+    //      create indexPath with row = length of dataSource of target (dropped on) table
+    if (to == nil)
+        to = [NSIndexPath indexPathForRow:(self.rightData.count) inSection:0];
     
     /* Grab the appropriate data */
     

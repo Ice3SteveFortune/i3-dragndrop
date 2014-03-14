@@ -264,6 +264,31 @@
 }
 
 
+-(NSIndexPath*) lastIndexPathForView:(UIView*) container{
+    
+    NSIndexPath *indexPath;
+    
+    if([container isKindOfClass:[UITableView class]]){
+        
+        UITableView *theView = (UITableView*)container;
+        
+        // Now just construct the index path
+        indexPath = [NSIndexPath indexPathForRow:([theView numberOfRowsInSection:([theView numberOfSections]-1)]-1)
+                                       inSection:([theView numberOfSections]-1)];
+        
+    }
+    else if([container isKindOfClass:[UICollectionView class]]){
+        
+        UICollectionView *theView = (UICollectionView*)container;
+
+        indexPath = [NSIndexPath indexPathForRow:([theView numberOfItemsInSection:([theView numberOfSections]-1)]-1)
+                                       inSection:([theView numberOfSections]-1)];
+    }
+    
+    return indexPath;
+}
+
+
 -(BOOL) startDragFromView:(UIView*) container atPoint:(CGPoint) point{
 
 
@@ -706,12 +731,16 @@
         NSIndexPath* index = [self determineIndexForContainer:self.srcView atPoint:point forCell:&cell];
         
         if(index == nil){
+
+            // cvc: if drop is below last index in empty area of table,
+            //      then exchange with last index
+            index = [self lastIndexPathForView:self.srcView];
             
-            NSLog(@"Invalid Cell");
-            
-            [self snapDraggingViewBack];
-            
-            return;
+//            NSLog(@"Invalid Cell");
+//            
+//            [self snapDraggingViewBack];
+//            
+//            return;
         }
         
         BOOL isExchangable = YES;
@@ -788,13 +817,13 @@
         NSIndexPath* index = [self determineIndexForContainer:self.dstView atPoint:point forCell:nil];
         
         /* Catching invalid cells being dropped */
-        
-        if(index == nil){
-            
-            [self snapDraggingViewBack];
-            return;
-            
-        }
+// cvc: disabled so that items can be added to bottom of table by dropping
+//      in empty area of table; nil must be handled in delegate method by
+//      creating new indexPath with row = length of target table's dataSource
+//        if(index == nil){
+//            [self snapDraggingViewBack];
+//            return;
+//        }
 
         if(self.delegate && [self.delegate respondsToSelector:@selector(droppedOnDstAtIndexPath:fromSrcIndexPath:)]){
             [self.delegate droppedOnDstAtIndexPath:index fromSrcIndexPath:self.draggingIndexPath];
@@ -874,13 +903,13 @@
         NSIndexPath* index = [self determineIndexForContainer:self.srcView atPoint:point forCell:nil];
         
         /* Catching invalid cells being dropped */
-        
-        if(index == nil){
-            
-            [self snapDraggingViewBack];
-            return;
-            
-        }
+// cvc: disabled so that items can be added to bottom of table by dropping
+//      in empty area of table; nil must be handled in delegate method by
+//      creating new indexPath with row = length of target table's dataSource
+//        if(index == nil){
+//            [self snapDraggingViewBack];
+//            return;
+//        }
         
         if(self.delegate && [self.delegate respondsToSelector:@selector(droppedOnSrcAtIndexPath:fromDstIndexPath:)]){
             [self.delegate droppedOnSrcAtIndexPath:index fromDstIndexPath:self.draggingIndexPath];
@@ -921,11 +950,16 @@
         
         if(index == nil){
         
-            NSLog(@"Invalid cell");
+            // cvc: if drop is below last index in empty area of table,
+            //      then exchange with last index
+            index = [self lastIndexPathForView:self.dstView];
             
-            [self snapDraggingViewBack];
+//            NSLog(@"Invalid Cell");
+//
+//            [self snapDraggingViewBack];
+//
+//            return;
 
-            return;
         }
         
         BOOL isExchangable = YES;
