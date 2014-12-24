@@ -649,14 +649,22 @@
         DND_LOG(@"Handle drag but we're not dragging.");
         return;
     }
-    
+
+
     /* Translate */
-    
+
     CGPoint translation = [gestureRecognizer translationInView:[self.draggingView superview]];
+
     [self.draggingView setCenter:CGPointMake([self.draggingView center].x + translation.x,
                                              [self.draggingView center].y + translation.y)];
     [gestureRecognizer setTranslation:CGPointZero inView:[self.draggingView superview]];
 
+    if ([self.delegate respondsToSelector:@selector(draggingView:atPoint:)]) {
+        CGPoint superTranslation = [gestureRecognizer translationInView:self.superview];
+
+        [self.delegate draggingView:self.draggingView atPoint:CGPointMake([self.draggingView center].x + superTranslation.x,
+                                                                          [self.draggingView center].y + superTranslation.y)];
+    }
 }
 
 
@@ -718,7 +726,7 @@
         UIView* cell;
         NSIndexPath* index = [self determineIndexForContainer:self.srcView atPoint:point forCell:&cell];
         
-        if(index == nil){
+        if(index == nil && !self.includeNilDropIndexes){
             
             DND_LOG(@"Invalid Cell");
             
@@ -799,14 +807,14 @@
        && self.draggingView){
         
         NSIndexPath* index = [self determineIndexForContainer:self.dstView atPoint:point forCell:nil];
-        
+
         /* Catching invalid cells being dropped */
-        
-        if(index == nil){
-            
+
+        if(index == nil && !self.includeNilDropIndexes){
+
             [self snapDraggingViewBack];
             return;
-            
+
         }
 
         if(self.delegate && [self.delegate respondsToSelector:@selector(droppedOnDstAtIndexPath:fromSrcIndexPath:)]){
@@ -888,7 +896,7 @@
         
         /* Catching invalid cells being dropped */
         
-        if(index == nil){
+        if(index == nil && !self.includeNilDropIndexes){
             
             [self snapDraggingViewBack];
             return;
@@ -932,7 +940,7 @@
         
         /* Catch invalid cells */
         
-        if(index == nil){
+        if(index == nil && !self.includeNilDropIndexes){
         
             DND_LOG(@"Invalid cell");
             
