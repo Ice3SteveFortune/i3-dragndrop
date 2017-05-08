@@ -1,8 +1,8 @@
-#![](Docs/Images/exchange-35x35.png)&nbsp;&nbsp;BetweenKit
+# ![](Docs/Images/exchange-35x35.png)&nbsp;&nbsp;BetweenKit
 
 [![Build Status](https://travis-ci.org/ice3-software/between-kit.svg?branch=task-28-build-2.0.0)](https://travis-ci.org/ice3-software/between-kit) [![Coverage Status](https://coveralls.io/repos/ice3-software/between-kit/badge.png?branch=task-52-static-analysis-mess-detection)](https://coveralls.io/r/ice3-software/between-kit?branch=task-52-static-analysis-mess-detection)
 
-###Overview
+### Overview
 
 BetweenKit is a robust framework, built on `UIKit` that allows you to build drag-and-drop functionallity into your iOS application user interfaces.
 
@@ -10,7 +10,7 @@ BetweenKit is based on the concepts of the original [i3-dragndrop](https://githu
 
 Check out the [website](http://ice3-software.github.io/between-kit/) and [documentation](Docs/) for more.
 
-###Features
+### Features
 
 - __Easy to integrate__: aims to work smoothly alongside Apple's built in UI components.
 
@@ -24,6 +24,6 @@ Check out the [website](http://ice3-software.github.io/between-kit/) and [docume
 
 - __Reliable__: tried, tested, refined, re-tried and re-tested once more.
 
-###License
+### License
 
 BetweenKit is licensed under the MIT License. See [here](LICENSE).
