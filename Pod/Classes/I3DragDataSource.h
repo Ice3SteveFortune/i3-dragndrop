@@ -126,7 +126,7 @@
  
  @name Coordination
  @param from            The index from the original collection that the item is from
- @param to              The index path on the target collection that we're dropping on
+ @param at              The point on the target collection where we're dropping
  @param fromCollection  The original collection that we're dragging from.
  @param toCollection      The target collection that we're dragging to.
  @return BOOL

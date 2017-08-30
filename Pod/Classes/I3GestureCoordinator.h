@@ -160,7 +160,7 @@
  view.
  
  @param viewController      This controller's main view is used as the arena's superview
- @param collection          An array of UIView<I3Collection> objects
+ @param collections         An array of UIView<I3Collection> objects
  @param recognizer          The recognizer to listen to.
  
  */
@@ -173,7 +173,7 @@
  with a nil recognizer.
  
  @param viewController      This controller's main view is used as the arena's superview
- @param collection          An array of UIView<I3Collection> objects
+ @param collections         An array of UIView<I3Collection> objects
  
  */
 +(instancetype) basicGestureCoordinatorFromViewController:(UIViewController *)viewController withCollections:(NSArray *)collections;
